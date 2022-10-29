@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>webSocket | 晨风的小博客</title><meta name="author" content="晨风"><meta name="copyright" content="晨风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="为什么需要websocket因为http协议存在一个缺陷：通信只能由客户端发起优势：一旦连接建立，后续数据都会以帧序列的形式传输，断开服务前，不需要服务端或者客户端重新发起请求，极大的节省了网络带宽资源的消耗，性能更高，实时性强；（1）建立在 TCP 协议之上，服务器端的实现比较容易。（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webSocket">
+<meta property="og:url" content="https://stonepile.github.io/2022/08/23/websocket/index.html">
+<meta property="og:site_name" content="晨风的小博客">
+<meta property="og:description" content="为什么需要websocket因为http协议存在一个缺陷：通信只能由客户端发起优势：一旦连接建立，后续数据都会以帧序列的形式传输，断开服务前，不需要服务端或者客户端重新发起请求，极大的节省了网络带宽资源的消耗，性能更高，实时性强；（1）建立在 TCP 协议之上，服务器端的实现比较容易。（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img0.baidu.com/it/u=868637169,316735885&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=675">
+<meta property="article:published_time" content="2022-08-23T07:02:07.000Z">
+<meta property="article:modified_time" content="2022-08-24T03:13:40.180Z">
+<meta property="article:author" content="晨风">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img0.baidu.com/it/u=868637169,316735885&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=675"><link rel="shortcut icon" href="https://img2.baidu.com/it/u=786818184,2179551997&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"><link rel="canonical" href="https://stonepile.github.io/2022/08/23/websocket/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'webSocket',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-08-24 11:13:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://img2.baidu.com/it/u=4122738859,2522601053&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=500" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">晨风的小博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">webSocket<a class="post-edit-link" href="null_posts/websocket.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-23T07:02:07.000Z" title="发表于 2022-08-23 15:02:07">2022-08-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-24T03:13:40.180Z" title="更新于 2022-08-24 11:13:40">2022-08-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="webSocket"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>为什么需要websocket<br>因为http协议存在一个缺陷：通信只能由客户端发起<br>优势：一旦连接建立，后续数据都会以帧序列的形式传输，断开服务前，不需要服务端或者客户端重新发起请求，极大的节省了网络带宽资源的消耗，性能更高，实时性强；<br>（1）建立在 TCP 协议之上，服务器端的实现比较容易。<br>（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。<br>（3）数据格式比较轻量，性能开销小，通信高效。<br>（4）可以发送文本，也可以发送二进制数据。<br>（5）没有同源限制，客户端可以与任意服务器通信。<br>（6）协议标识符是ws（如果加密，则为wss），服务器网址就是 URL。<br>缺点：不兼容低版本浏览器</p>
+<p>基本使用<br>浏览器提供了原生类websocket，是通过new来创建的；<br>websocket &#x3D; new WebSocket（url, protocols）<br>接收两个参数：<br>url 表示需要连接的地址，比如：ws:&#x2F;&#x2F;localhost:8080；<br>protocols 可选参数，可以是一个字符串或者一个数组，用来表示子协议，这样做可以让一个服务器实现多种 WebSocket 子协议；<br>实例化对象提供两个方法：<br>send 接收一个 String|ArrayBuffer|Blob 数据，作为数据发送到服务端；<br>close 接收一个（可选）的 code（关闭状态号，默认为 1000） 与一个（可选）的字符串（表示断开原因），客户端主动断开连接；</p>
+<p>连接状态：<br>WebSocket 类提供了一些常量表示连接状态：<br>WebSocket.CONNECTING 0 连接还没开启；<br>WebSocket.OPEN 1 连接已开启并准备好进行通信；<br>WebSocket.CLOSING 3 连接正在关闭的过程中；<br>WebSocket.CLOSED 4 连接已经关闭，或者连接无法建立；<br>WebSocket 的实例对象中提供了 readyState 属性来判断当前状态；</p>
+<p>实例化对象中可以监听到以下事件：<br>open 连接打开的回调事件，这时 readyState 变为 OPEN；<br>message 收到消息的回调事件，同时回调函数接收到一个 MessageEvent 数据；<br>close 连接关闭的回调事件，这时 readyState 变为 CLOSED；<br>error 建立与连接过程发生错误的回调事件；</p>
+<p>事件与数据<br>对 WebSocket 实例监听事件有两种方式，这里以 message 事件为例：<br>对 onmessage 属性直接赋值，正如以上：ws.onmessage &#x3D; function () {};<br>使用 addEventListener 监听事件，如：ws.addEventListener(‘message’, function () {})；<br>在 message 回调函数中得到 MessageEvent 类型参数 e ，我们需要的数据可以通过 e.data 获取；<br>需要注意的一点是：不论服务端与客户端，其接受到的数据都是序列化后的字符串（当然也有 ArrayBuffer|Blob 类型数据），很多时候我们需要解析处理数据，比如 JSON.parse(e.data)；</p>
+<p>连接稳定性<br>由于网络环境复杂，某些情况会出现断开连接或者连接出错，需要我们在 close 或者 error 事件中监听非正常断开并重连；<br>由于一些原因在 error 时浏览器并不会响应回调事件，因此稳妥的做法还需要在 open 之后开启一个定时任务去判断当前的连接状态 readyState ，在出现异常情况下尝试重连；</p>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://stonepile.github.io">晨风</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://stonepile.github.io/2022/08/23/websocket/">https://stonepile.github.io/2022/08/23/websocket/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://stonepile.github.io" target="_blank">晨风的小博客</a>！</span></div></div><div class="tag_share"><div class="post_share"><div class="social-share" data-image="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/23/nuxt-js/"><img class="prev-cover" src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Nuxt.js学习笔记</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/23/%E6%96%B9%E6%B3%95/"><img class="next-cover" src="https://img0.baidu.com/it/u=2928785480,1343203136&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">一些小方法</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://img2.baidu.com/it/u=4122738859,2522601053&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=500" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">晨风</div><div class="author-info__description">鴥彼晨风，郁彼北林</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/www.baidu.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">一个小博客</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/" title="React-umi路由"><img src="https://img2.baidu.com/it/u=923478948,106462584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React-umi路由"/></a><div class="content"><a class="title" href="/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/" title="React-umi路由">React-umi路由</a><time datetime="2022-09-20T07:36:46.000Z" title="发表于 2022-09-20 15:36:46">2022-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/29/nest-js/" title="nest.js学习笔记"><img src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nest.js学习笔记"/></a><div class="content"><a class="title" href="/2022/08/29/nest-js/" title="nest.js学习笔记">nest.js学习笔记</a><time datetime="2022-08-29T05:58:19.000Z" title="发表于 2022-08-29 13:58:19">2022-08-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/Vue%E6%80%BB%E7%BB%93/" title="Vue总结"><img src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue总结"/></a><div class="content"><a class="title" href="/2022/08/23/Vue%E6%80%BB%E7%BB%93/" title="Vue总结">Vue总结</a><time datetime="2022-08-23T08:11:26.000Z" title="发表于 2022-08-23 16:11:26">2022-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/" title="一些小总结"><img src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一些小总结"/></a><div class="content"><a class="title" href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/" title="一些小总结">一些小总结</a><time datetime="2022-08-23T08:06:22.000Z" title="发表于 2022-08-23 16:06:22">2022-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/nuxt-js/" title="Nuxt.js学习笔记"><img src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nuxt.js学习笔记"/></a><div class="content"><a class="title" href="/2022/08/23/nuxt-js/" title="Nuxt.js学习笔记">Nuxt.js学习笔记</a><time datetime="2022-08-23T08:03:44.000Z" title="发表于 2022-08-23 16:03:44">2022-08-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 晨风</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="7422861869" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

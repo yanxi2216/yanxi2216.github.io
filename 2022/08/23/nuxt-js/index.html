@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Nuxt.js学习笔记 | 晨风的小博客</title><meta name="author" content="晨风"><meta name="copyright" content="晨风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.SSR服务端渲染vue-server-renderer,即服务器端对Vue页面进行渲染生成html文件，然后将html页面传递给浏览器，优点：SEO不同域SPA的html只有一个无实际内容的html和app.js，SSR生成的html是有内容的，可以让搜索引擎能索引到页面内容；更快内容到达时间 传统的SPA引用是将bundle.js从服务器获取，然后在客户端解析并挂载到dom。而SSR直接将H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nuxt.js学习笔记">
+<meta property="og:url" content="https://stonepile.github.io/2022/08/23/nuxt-js/index.html">
+<meta property="og:site_name" content="晨风的小博客">
+<meta property="og:description" content="1.SSR服务端渲染vue-server-renderer,即服务器端对Vue页面进行渲染生成html文件，然后将html页面传递给浏览器，优点：SEO不同域SPA的html只有一个无实际内容的html和app.js，SSR生成的html是有内容的，可以让搜索引擎能索引到页面内容；更快内容到达时间 传统的SPA引用是将bundle.js从服务器获取，然后在客户端解析并挂载到dom。而SSR直接将H">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img0.baidu.com/it/u=381886100,3541087750&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281">
+<meta property="article:published_time" content="2022-08-23T08:03:44.000Z">
+<meta property="article:modified_time" content="2022-08-23T08:06:42.231Z">
+<meta property="article:author" content="晨风">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img0.baidu.com/it/u=381886100,3541087750&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"><link rel="shortcut icon" href="https://img2.baidu.com/it/u=786818184,2179551997&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"><link rel="canonical" href="https://stonepile.github.io/2022/08/23/nuxt-js/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Nuxt.js学习笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-08-23 16:06:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://img2.baidu.com/it/u=4122738859,2522601053&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=500" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">晨风的小博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Nuxt.js学习笔记<a class="post-edit-link" href="null_posts/nuxt-js.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-23T08:03:44.000Z" title="发表于 2022-08-23 16:03:44">2022-08-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-23T08:06:42.231Z" title="更新于 2022-08-23 16:06:42">2022-08-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Nuxt.js学习笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>1.SSR服务端渲染<br>vue-server-renderer,即服务器端对Vue页面进行渲染生成html文件，然后将html页面传递给浏览器，<br>优点：<br>SEO不同域SPA的html只有一个无实际内容的html和app.js，SSR生成的html是有内容的，可以让搜索引擎能索引到页面内容；<br>更快内容到达时间 传统的SPA引用是将bundle.js从服务器获取，然后在客户端解析并挂载到dom。而SSR直接将HTML字符串传递给浏览器。大大加快了首屏加载时间。</p>
+<p>1)服务端渲染优缺点：<br>优点：前端耗时少、有利于SEO、无需占用客户端资源、后端生成静态文件<br>缺点：不利于前后端分离、占用服务器资源<br>适用于应用交互不太复杂需要良好的SEO且服务器性能好<br>2)客户端渲染优缺点：<br>优点：有利于前后端分离、服务器压力小<br>缺点：前端响应慢、不利于SEO<br>适用于应用交互复杂且不需要良好的SEO，例如企业内部系统</p>
+<p>1.2 预渲染<br>预渲染可以打包多页面并解决每个页面单独生成title描述关键词，切接口数据是在html生成之前放在页面上的，所以爬虫可以抓取到内容；<br>预渲染适合一个项目中有几个页面需要做seo优化时使用；<br>预渲染可以通过插件prerender-spa-plugin插件，在vue.config.js里进行配置来实现，如果需要修改title描述关键字的话，需要安装插件vue-meta-info，然后在页面组件中配置metaInfo,title,meta…<br>注：<br>1.预渲染无法配置动态路由<br>2.如果title描述关键词是来自接口的数据，那么来自metainfo的配置也是不行的<br>2.使用nuxt的原因<br>最主要的原因是SPA不利于搜索引擎SEO操作，所以我们需要将我们的应用在服务端渲染成适合搜索引擎抓取的页面，在下载到客户端。Nuxt.js适合做新闻、博客、电影、咨询这样的需要搜索引擎提供流量的项目。<br>3.nuxt.js的优点<br>基于Vue.js<br>自动代码分层<br>服务端渲染<br>强大的路由功能，支持异步数据<br>静态文件服务<br>ES2015+语法支持<br>打包和压缩JS和CSS<br>HTML头部标签管理<br>本地开发支持热加载<br>集成ESLint<br>支持各种样式预处理器：SASS、LESS、Stulus等等<br>支持HTTP&#x2F;2推送<br>4.安装与使用<br>安装nuxt包 ： npm install create-nuxt-app<br>创建项目： npx create-nuxt-app &lt;项目名&gt;  或 yarn create nuxt-app &lt;项目名&gt;<br>或 npm init nuxt-app &lt;项目名&gt;<br>5.目录结构</p>
+<ol>
+<li>assets 用于组织未编译的静态资源如LESS、SASS</li>
+<li>components 用于组织应用中的Vue.js组件（该目录下组件没有asyncData方法）</li>
+<li>layouts 用于组织应用的布局组件（比如自定义布局模板）</li>
+<li>middleware 用于存放应用的中间件</li>
+<li>pages 用于组织应用的路由与视图（Nuxt.js会读取该目录下所有的.vue文件并自动生成对应的路由配置）</li>
+<li>plugins 用于组织那些需要在根vue.js应用实例化前需要运行的JavaScript插件</li>
+<li>static 用于存放应用的静态文件（此类文件不会被nuxt.js调用webpack构建编译，服务器启动时，该目录会被映射到根路径&#x2F;下,使用时~代表根路径 ~static）</li>
+<li>store 用于组织应用的vuex状态树文件（store下创建index.js即可激活配置）</li>
+<li>nuxt.config.js 个性化配置 用于覆盖默认配置</li>
+<li>package.json 描述依赖关系和对外暴露的脚本接口<br>6.路由<br>路由跳转推荐使用<nuxt-link>标签而不是a标签，属性为to<br>若是想要定义带参数的动态路由，需要创建对应的以_为前缀的vue文件或目录<br>嵌套路由： 添加一个vue文件，同时创建一个同名的文件夹存放子组件视图，在父组件（.vue）内写上<nuxt-child><br>路由校验-validate方法：<br>validate({params}){<br>return &#x2F;^\d+$&#x2F;.test(params.id)<br>}<br>注意：Nuxt.js 会监听pages目录中的文件更改，因此在添加新页面时无需重新启动应用程序。<br>路由重定向<br>nuxt.config.js:  router : { middleware : ‘redirect’}<br>创建文件夹middleware,其内添加redirec.js<br>redirect.js :<br>export default function ({<br>app,store,route,params,error,redirect<br>}) {<br>if(route.fullPath &#x3D;&#x3D; ‘&#x2F;原路径’)<br>return redirect(‘&#x2F;重定向地址’)<br>}<br>7.过渡动画<br>设置全局过渡需要卸载assets&#x2F;main.css里，同时配置一下nuxt.config.js里的css路径，<br>全局过渡样式以page开头，如果设置单一过渡，需要使用transition组件，同时规定好name，样式以name开头<br>8.异步数据<br>asyncData方法，该方法会在页面组件每次加载之前被调用。方法被调用的时候，第一个参数被设定为当前页面的上下文对象。<br>注意：此方法内无法通过this来引用组件实例对象，而且nuxt.js会将asyncData返回的数据融合组件data方法返回的数据一并返回给当前组件。<br>async asyncData({ params }) {<br>const { data } &#x3D; await axios.get(<code>https://my-api/posts/$&#123;params.id&#125;</code>)<br>return { title: data.title }<br>  }<br>fetch方法，用于在渲染页面前填充应用的store数据，与asyncData类似<br>9.配置端口IP<br>package.json里：<br>“config” : {<br>“nuxt”: {<br>“host”:”127.0.0.1”,<br>“port”:”8080”<br>}<br>}<br>10.生命周期<br>服务端：<br>nuxtServerInit —— 第一个运行的生命周期，可以设置token<br>middleware —— 可以做导航守卫（中间件），可以判断token是否存在<br>validate —— 参数校验<br>asyncData —— 异步请求，获取数据(只能在pages下的组件里使用)<br>fetch —— 操作store<br>服务端和客户端共有：beforeCreate    created<br>客户端：同vue的生命周期</li>
+<li>服务端不能使用localstorage和cookie的解决方案<br>安装插件 cookie-universal-nuxt 然后配置在nuxt.config.js的modules里，使用this.$cookies（get、set、remove）</li>
+<li>head<br>全局配置的head卸载nuxt.config.js里，是一个对象；单独组件的head是一个函数，内部返回一个对象，配置项如title&#x2F;meta写在其内  </li>
+<li>处理token<br>需要使用中间件 npm install cookie-universal-nuxt -S,可以先存储到vuex中，然后进行持久化存储<br>this.$cookies.set(‘token’,token) token通过请求获取；</li>
+<li>重定向</li>
+</ol>
+<p>1）302重定向<br>使用中间件 创建redirect.js<br>nuxt.config.js中的router内 middleware : ‘recirect’;<br>在重定向的位置写redirect（‘新路径’）,redirect可在生命周期函数的参数上解构出来<br>2）301重定向<br>需要安装插件 yarn add @nuxtjs&#x2F;redirect-module<br>在nuxt.config.js的modules模块中将@nuxtjs&#x2F;redirect-module添加进去<br>使用时在modules同级下写redirect，其类型为数组，里边放置每一条规则；<br>例： {from: ‘&#x2F;news’, to : ‘&#x2F;detail’ , statusCode : 301} 永久重定向跳转需要写上状态码301<br>15. seo优化之添加站点地图</p>
+<p>yarn add @nuxtjs&#x2F;sitemap<br>在nuxt.cofig.js的modules模块下添加 ‘@nuxtjs&#x2F;sitemap’<br>静态情况下，在static目录下放入sitemap.xml；<br>动态生成时，项目目录下创建cofig目录，创建sitemap.js</p>
+<p>再回到nuxt.config.js中， import sitemap from ‘.&#x2F;config&#x2F;sitemap’,<br>配置 sitemap : sitemap<br>在项目根目录&#x2F;sitemap.xml访问成功就说明配置完成；</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://stonepile.github.io">晨风</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://stonepile.github.io/2022/08/23/nuxt-js/">https://stonepile.github.io/2022/08/23/nuxt-js/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://stonepile.github.io" target="_blank">晨风的小博客</a>！</span></div></div><div class="tag_share"><div class="post_share"><div class="social-share" data-image="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/"><img class="prev-cover" src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">一些小总结</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/23/websocket/"><img class="next-cover" src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">webSocket</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://img2.baidu.com/it/u=4122738859,2522601053&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=500" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">晨风</div><div class="author-info__description">鴥彼晨风，郁彼北林</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/www.baidu.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">一个小博客</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/" title="React-umi路由"><img src="https://img2.baidu.com/it/u=923478948,106462584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React-umi路由"/></a><div class="content"><a class="title" href="/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/" title="React-umi路由">React-umi路由</a><time datetime="2022-09-20T07:36:46.000Z" title="发表于 2022-09-20 15:36:46">2022-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/29/nest-js/" title="nest.js学习笔记"><img src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nest.js学习笔记"/></a><div class="content"><a class="title" href="/2022/08/29/nest-js/" title="nest.js学习笔记">nest.js学习笔记</a><time datetime="2022-08-29T05:58:19.000Z" title="发表于 2022-08-29 13:58:19">2022-08-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/Vue%E6%80%BB%E7%BB%93/" title="Vue总结"><img src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue总结"/></a><div class="content"><a class="title" href="/2022/08/23/Vue%E6%80%BB%E7%BB%93/" title="Vue总结">Vue总结</a><time datetime="2022-08-23T08:11:26.000Z" title="发表于 2022-08-23 16:11:26">2022-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/" title="一些小总结"><img src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一些小总结"/></a><div class="content"><a class="title" href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/" title="一些小总结">一些小总结</a><time datetime="2022-08-23T08:06:22.000Z" title="发表于 2022-08-23 16:06:22">2022-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/nuxt-js/" title="Nuxt.js学习笔记"><img src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nuxt.js学习笔记"/></a><div class="content"><a class="title" href="/2022/08/23/nuxt-js/" title="Nuxt.js学习笔记">Nuxt.js学习笔记</a><time datetime="2022-08-23T08:03:44.000Z" title="发表于 2022-08-23 16:03:44">2022-08-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 晨风</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="7422861869" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>React-umi路由 | 晨风的小博客</title><meta name="author" content="晨风"><meta name="copyright" content="晨风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.约定式路由即文件路由，根据文件名自动配置； 1.1 基础路由即自动生成的路由配置 例如pages目录如下： 12345678910&#x2F;&#x2F; 基础路由pages	user		index.js   	index.js umi会自动生成路由： [ &amp;#123;path: &amp;#x27;&#x2F;&amp;#x27;, component: &amp;#x27;.&#x2F;pages&#x2F;index.js&amp;#x27;&amp;#125;, &amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React-umi路由">
+<meta property="og:url" content="https://stonepile.github.io/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/index.html">
+<meta property="og:site_name" content="晨风的小博客">
+<meta property="og:description" content="1.约定式路由即文件路由，根据文件名自动配置； 1.1 基础路由即自动生成的路由配置 例如pages目录如下： 12345678910&#x2F;&#x2F; 基础路由pages	user		index.js   	index.js umi会自动生成路由： [ &amp;#123;path: &amp;#x27;&#x2F;&amp;#x27;, component: &amp;#x27;.&#x2F;pages&#x2F;index.js&amp;#x27;&amp;#125;, &amp;#123">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2.baidu.com/it/u=923478948,106462584&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281">
+<meta property="article:published_time" content="2022-09-20T07:36:46.000Z">
+<meta property="article:modified_time" content="2022-09-21T06:07:34.602Z">
+<meta property="article:author" content="晨风">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2.baidu.com/it/u=923478948,106462584&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"><link rel="shortcut icon" href="https://img2.baidu.com/it/u=786818184,2179551997&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"><link rel="canonical" href="https://stonepile.github.io/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'React-umi路由',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-09-21 14:07:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://img2.baidu.com/it/u=4122738859,2522601053&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=500" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img2.baidu.com/it/u=923478948,106462584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">晨风的小博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">React-umi路由<a class="post-edit-link" href="null_posts/React-umi路由.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-20T07:36:46.000Z" title="发表于 2022-09-20 15:36:46">2022-09-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-09-21T06:07:34.602Z" title="更新于 2022-09-21 14:07:34">2022-09-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="React-umi路由"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1-约定式路由"><a href="#1-约定式路由" class="headerlink" title="1.约定式路由"></a>1.约定式路由</h1><p>即文件路由，根据文件名自动配置；</p>
+<h3 id="1-1-基础路由"><a href="#1-1-基础路由" class="headerlink" title="1.1 基础路由"></a>1.1 基础路由</h3><p>即自动生成的路由配置</p>
+<p>例如pages目录如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基础路由</span></span><br><span class="line">pages</span><br><span class="line">	user</span><br><span class="line">		index.<span class="property">js</span></span><br><span class="line">   	index.<span class="property">js</span></span><br><span class="line"> umi会自动生成路由：</span><br><span class="line"> [</span><br><span class="line"> &#123;<span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/index.js&#x27;</span>&#125;,</span><br><span class="line"> &#123;<span class="attr">path</span>:<span class="string">&#x27;/user/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/user/index.js&#x27;</span>&#125;</span><br><span class="line"> ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-动态路由"><a href="#1-2-动态路由" class="headerlink" title="1.2  动态路由"></a>1.2  动态路由</h3><p>即带有$前缀的目录或文件生成的路由配置</p>
+<p>例如pages如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pages</span><br><span class="line">	$user</span><br><span class="line">	   index.<span class="property">js</span></span><br><span class="line">     $id.<span class="property">js</span></span><br><span class="line">     index.<span class="property">js</span></span><br><span class="line">   umi生成路由：</span><br><span class="line">  [</span><br><span class="line">    &#123;<span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/index.js&#x27;</span>&#125;</span><br><span class="line">    &#123;<span class="attr">path</span>:<span class="string">&#x27;/:user/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/$user/index.js&#x27;</span>&#125;</span><br><span class="line">    &#123;<span class="attr">path</span>: <span class="string">&#x27;/:id&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/$id.js&#x27;</span>&#125;</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-可选的动态路由"><a href="#1-3-可选的动态路由" class="headerlink" title="1.3 可选的动态路由"></a>1.3 <strong>可选的动态路由</strong></h3><p> umi 里约定动态路由如果带 $ 后缀，则为可选动态路由。<strong>对象路由里面可选路由用<code>？</code>表示</strong></p>
+<p>例如pages如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pages </span><br><span class="line">  user</span><br><span class="line">  	$id$.js</span><br><span class="line">  	index.js</span><br><span class="line">  	[</span><br><span class="line">  		&#123;path:&#x27;/&#x27;, component: &#x27;./pages/index.js&#x27;&#125;</span><br><span class="line">  		&#123;path: &#x27;/user/:id?&#x27;, component: &#x27;./pages/user/$id$.js&#x27;&#125;</span><br><span class="line">  	]</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-嵌套路由"><a href="#1-4-嵌套路由" class="headerlink" title="1.4 嵌套路由"></a>1.4 <strong>嵌套路由</strong></h3><p> umi 里约定目录下有 _layout.js 时会生成嵌套路由，以 _layout.js 为该目录的 layout。<strong>对象路由里面嵌套路由写在<code>routes</code>里面</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pages </span><br><span class="line">	user</span><br><span class="line">		_layout.<span class="property">js</span></span><br><span class="line">		$id.<span class="property">js</span></span><br><span class="line">		index.<span class="property">js</span></span><br><span class="line">    [</span><br><span class="line">       &#123;</span><br><span class="line">       		<span class="attr">path</span>: <span class="string">&#x27;/user&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/user/_layout.js&#x27;</span>,</span><br><span class="line">               <span class="attr">routes</span>: [</span><br><span class="line">                   &#123;<span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/user/index.js&#x27;</span>&#125;,</span><br><span class="line">                   &#123;<span class="attr">path</span>: <span class="string">&#x27;/user:id&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/user/$id.js&#x27;</span>&#125;</span><br><span class="line">               ]</span><br><span class="line">       &#125;</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-编译时配置式路由"><a href="#2-编译时配置式路由" class="headerlink" title="2. 编译时配置式路由"></a>2. 编译时配置式路由</h1><p><strong>编译时配置式路由，可以配置 .umirc.(ts|js) 或者config&#x2F;config.(ts|js) 配置文件中的 routes 属性；如果配置了这个文件，则会使约定式路由无效，即不会对 src&#x2F;pages 目录做约定式的解析</strong></p>
+<h3 id="2-1-config-js路由配置"><a href="#2-1-config-js路由配置" class="headerlink" title="2.1 config.js路由配置"></a>2.1 config.js路由配置</h3><p>&lt;1&gt;path参数: 这个就为一个路由路径。默认情况下，访问子路由的时候，会把父路由的所有组件也同时加载出来。 类型：string<br>如，一个路由{ path: ‘&#x2F;‘, component: ‘@&#x2F;layouts&#x2F;basic’,routes:[{path: ‘&#x2F;user’,component:’.&#x2F;content&#x2F;content’}] }<br>这时候如果输入路由 &#x2F;user, 页面中会同时加载组件basic和组件content<br>&lt;2&gt;component参数: 这个是和前面的路由路径对应的组件路径，即切换到对应的路由，就会显示这个对应的组件。component 默认是相对于 src&#x2F;pages 目录的。但是也可以用@来进行指定，@目录依然代表src目录。 类型：string<br>&lt;3&gt;routes参数: 表示子路由的所有配置，里面的依然是所有的路由对象<br>&lt;4&gt;redirect参数: 表示重定向路由。值为一个path路径。即，访问该路由的时候，重定向到指定路由<br>{ exact: true, path: ‘&#x2F;‘, redirect: ‘&#x2F;list’ }。即访问路由&#x2F;的时候，重定向到路由&#x2F;list<br>&lt;5&gt;exact参数: 表示是否精准匹配。加了这个属性，访问子路由的时候，就不会把父路由的组件也同时加载出来了，而只会加载子路由的组件。 类型：boolean，默认值：false<br>如，一个路由{ path: ‘&#x2F;‘, component: ‘@&#x2F;layouts&#x2F;basic’,routes:[{path: ‘&#x2F;user’,component:’.&#x2F;content&#x2F;content’,exact: true}] }<br>这时候如果输入路由 &#x2F;user, 页面中只会加载content组件<br>&lt;6&gt;title参数：配置路由的标题</p>
+<h3 id="2-2-路由组件参数"><a href="#2-2-路由组件参数" class="headerlink" title="2.2 路由组件参数"></a>2.2 路由组件参数</h3><p>在组件的props上面可以获取到的参数<br>match，当前路由和 url match 后的对象，包含 params(这个params就是动态路由的时候，获取传入的那个值)、path、url 和 isExact 属性<br>location，表示应用当前出于哪个位置，包含 pathname、search、query 等属性。这个参数没用，直接用window.location,就和这个是一样的了<br>history，同 api#history 接口<br>route，当前路由配置，包含 path、exact、component、routes 等</p>
+<h3 id="2-3-权限路由"><a href="#2-3-权限路由" class="headerlink" title="2.3 权限路由"></a>2.3 权限路由</h3><p>umi 的权限路由是通过编译时配置式路由的 Routes 属性来实现，在routes下的对象里设置authority属性即可；</p>
+<p>umi默认使用的是Browser History， 使用hash需要在config.js里配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;<span class="attr">history</span>: <span class="string">&#x27;hash&#x27;</span>,&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-运行时配置式路由"><a href="#3-运行时配置式路由" class="headerlink" title="3.运行时配置式路由"></a>3.运行时配置式路由</h1><p><strong>运行时配置式路由，就是指src 目录下的 app.js 中的路由配置。</strong>这个就相当于是在配置vue中的全局的钩子函数。即组件里面在执行一些操作的时候，就会先触发这里面的一些函数****</p>
+<h3 id="3-1-patchRoutes函数"><a href="#3-1-patchRoutes函数" class="headerlink" title="3.1 patchRoutes函数"></a>3.1 patchRoutes函数</h3><p>作用： <strong>修改路由当前页面中的路由</strong></p>
+<ul>
+<li>routes: <code>Array</code>，<code>config/config.js</code>中的<strong>全部路由配置,修改了这个routes参数，就相当于修改了全局的路由配置</strong>,</li>
+<li>使用场景：&lt;1&gt;和 render 配合使用，请求服务端根据响应动态更新路由。&lt;2&gt;修改全部路由，加上某个前缀</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export function patchRoutes(routes) &#123;</span><br><span class="line">  Object.keys(authRoutes).map(authKey =&gt;</span><br><span class="line">    ergodicRoutes(routes, authKey, authRoutes[authKey].authority)</span><br><span class="line">  );</span><br><span class="line">  window.g_routes = routes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-render函数"><a href="#3-2-render函数" class="headerlink" title="3.2 render函数"></a>3.2 render函数</h3><p>作用： render生命周期执行前调用此函数，可在渲染应用前做权限校验</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import router from &#x27;umi/router&#x27; // umi2</span><br><span class="line">import history from &#x27;umi&#x27;  // umi3以后</span><br><span class="line">export function render(oldRender) &#123;</span><br><span class="line"> fetch(&#x27;/api/auth&#x27;).then(auth =&gt; &#123;</span><br><span class="line">    if (auth.isLogin) &#123; oldRender() &#125;</span><br><span class="line">    else &#123; </span><br><span class="line">         history.push(&#x27;/home&#x27;);  // umi3以后</span><br><span class="line">        // router.push(&#x27;/home&#x27;)  umi2</span><br><span class="line">    &#125; </span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-onRouterChange函数"><a href="#3-3-onRouterChange函数" class="headerlink" title="3.3 onRouterChange函数"></a>3.3 onRouterChange函数</h3><p>作用： <strong>在初始加载和路由切换时触发</strong></p>
+<p>参数如下：</p>
+<ul>
+<li>location: <code>Object</code>，history 提供的 location 对象</li>
+<li>routes: <code>Array</code>，路由配置</li>
+<li>action: <code>PUSH|POP|REPLACE|undefined</code>，初次加载时为 undefined</li>
+</ul>
+<p>使用场景：埋点统计。初次加载时也会执行，但 action 为 undefined</p>
+<h3 id="3-4-rootContainer函数"><a href="#3-4-rootContainer函数" class="headerlink" title="3.4 rootContainer函数"></a>3.4 rootContainer函数</h3><p>用于<strong>封装 root container，可以取一部分，或者外面套一层，等等</strong>,参数如下</p>
+<ul>
+<li>container: <code>ReactComponent</code>，React 应用最上层的根组件</li>
+<li>使用场景：dva、intl 等需要在外层有个 Provider 的场景</li>
+</ul>
+<h3 id="3-4-modifyRouteProps函数"><a href="#3-4-modifyRouteProps函数" class="headerlink" title="3.4 modifyRouteProps函数"></a><strong>3.4 modifyRouteProps</strong>函数</h3><p>用于<strong>修改传给路由组件的 props</strong>,参数如下</p>
+<ul>
+<li>props: <code>Object</code>，原始 props</li>
+<li>Object: <code>里面有个route属性</code>，表示当前路由配置</li>
+<li>使用场景：需返回新的 props</li>
+</ul>
+<h1 id="4-路由跳转"><a href="#4-路由跳转" class="headerlink" title="4. 路由跳转"></a>4. 路由跳转</h1><h3 id="4-1-标签跳转"><a href="#4-1-标签跳转" class="headerlink" title="4.1 标签跳转"></a>4.1 标签跳转</h3><p>基于 <code>umi/link</code>，通常作为 React 组件使用。就是说用<code>&lt;link&gt;</code>标签进行跳转</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import Link from &#x27;umi/link&#x27;;</span><br><span class="line">export default () =&gt; (&lt;Link to=&quot;/list&quot;&gt;Go to list page&lt;/Link&gt;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-函数跳转"><a href="#4-2-函数跳转" class="headerlink" title="4.2 函数跳转"></a>4.2 函数跳转</h3><p>基于 umi&#x2F;router，通常在事件处理中被调用。<strong>就是说函数式跳转，一般不用这个，在umi 3.0中已经被废弃，而是用下面那个history跳转</strong>。更多跳转方法，见 <a target="_blank" rel="noopener" href="https://umijs.org/zh/api/#umi-router%E3%80%82%E4%BD%86%E6%98%AF**%E4%BD%BF%E7%94%A8%E8%BF%99%E4%B8%AAhistory%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%9C%89%E6%97%B6%E5%80%99%E4%BC%9A%E6%8A%A5%E9%94%99">https://umijs.org/zh/api/#umi-router。但是**使用这个history的时候，有时候会报错</a> history为undefined，所以这个时候需要用<code>withRouter()()</code>这个高阶组件来包裹当前组件**</p>
+<h3 id="4-3-props-history-push-params"><a href="#4-3-props-history-push-params" class="headerlink" title="4.3 props.history.push(params):"></a>4.3 props.history.push(params):</h3><p>这个push()函数的params参数，可以为一个字符串也可以为一个对象。<br>参数为字符串：为字符串的时候，就代表要跳转的目标路由路径<br>参数为对象：为对象的时候，就可以 给目标路由传参了</p>
+<p>参数如下：</p>
+<p>pathname属性：表示要跳转的目标路由路径。 类型：string<br>query属性：表示要传给目标路由的参数。不过参数会被放到地址栏。 类型：object<br>state属性：也是传给目标路由的参数。参数是加密的，不会放到地址栏。 类型：object<br>组件中获取传过来的路由参数：如果是query传过来的对象参数，就用this.props.location.query(默认为{}); 如果是state传过来的对象参数，就用this.props.location.state(默认为undefined);</p>
+<p>注： window的location对象改变路由实现跳转：<code>location.pathname = &#39;/user/list&#39;</code>,这种方法可以是可以，不过就是切换路由的速度太慢了。在可以用上面方法的情况下，不推荐使用</p>
+<h1 id="5-Module-Processor"><a href="#5-Module-Processor" class="headerlink" title="5 Module Processor"></a>5 Module Processor</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.js, .jsx, .mjs, .jsx, .json: 由 babel-loader 处理</span><br><span class="line">.ts: 由 ts-loader 处理</span><br><span class="line">.graphql, .gql: 由 graphql-tag/loader 处理</span><br><span class="line">.css, .less, .sass: 由 css-loader, postcss-loader, less-loader 处理</span><br><span class="line">.svg: 由 @svgr/core 处理。使用 umi，你可以用如下方式引入 svg</span><br><span class="line">import &#123; ReactComponent as Avatar &#125; from &#x27;./avatar.svg&#x27;</span><br><span class="line">function Example() &#123;return &lt;Avatar /&gt;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>————————————————<br>转载至：<a target="_blank" rel="noopener" href="https://blog.csdn.net/rocktanga/article/details/122907867">https://blog.csdn.net/rocktanga/article/details/122907867</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://stonepile.github.io">晨风</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://stonepile.github.io/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/">https://stonepile.github.io/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://stonepile.github.io" target="_blank">晨风的小博客</a>！</span></div></div><div class="tag_share"><div class="post_share"><div class="social-share" data-image="https://img2.baidu.com/it/u=923478948,106462584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/08/29/nest-js/"><img class="next-cover" src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">nest.js学习笔记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://img2.baidu.com/it/u=4122738859,2522601053&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=500" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">晨风</div><div class="author-info__description">鴥彼晨风，郁彼北林</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/www.baidu.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">一个小博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E7%BA%A6%E5%AE%9A%E5%BC%8F%E8%B7%AF%E7%94%B1"><span class="toc-number">1.</span> <span class="toc-text">1.约定式路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%9F%BA%E7%A1%80%E8%B7%AF%E7%94%B1"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.1 基础路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">1.0.2.</span> <span class="toc-text">1.2  动态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%8F%AF%E9%80%89%E7%9A%84%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">1.0.3.</span> <span class="toc-text">1.3 可选的动态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%B5%8C%E5%A5%97%E8%B7%AF%E7%94%B1"><span class="toc-number">1.0.4.</span> <span class="toc-text">1.4 嵌套路由</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%BC%96%E8%AF%91%E6%97%B6%E9%85%8D%E7%BD%AE%E5%BC%8F%E8%B7%AF%E7%94%B1"><span class="toc-number">2.</span> <span class="toc-text">2. 编译时配置式路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-config-js%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="toc-number">2.0.1.</span> <span class="toc-text">2.1 config.js路由配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%B7%AF%E7%94%B1%E7%BB%84%E4%BB%B6%E5%8F%82%E6%95%B0"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.2 路由组件参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%9D%83%E9%99%90%E8%B7%AF%E7%94%B1"><span class="toc-number">2.0.3.</span> <span class="toc-text">2.3 权限路由</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E8%BF%90%E8%A1%8C%E6%97%B6%E9%85%8D%E7%BD%AE%E5%BC%8F%E8%B7%AF%E7%94%B1"><span class="toc-number">3.</span> <span class="toc-text">3.运行时配置式路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-patchRoutes%E5%87%BD%E6%95%B0"><span class="toc-number">3.0.1.</span> <span class="toc-text">3.1 patchRoutes函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-render%E5%87%BD%E6%95%B0"><span class="toc-number">3.0.2.</span> <span class="toc-text">3.2 render函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-onRouterChange%E5%87%BD%E6%95%B0"><span class="toc-number">3.0.3.</span> <span class="toc-text">3.3 onRouterChange函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-rootContainer%E5%87%BD%E6%95%B0"><span class="toc-number">3.0.4.</span> <span class="toc-text">3.4 rootContainer函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-modifyRouteProps%E5%87%BD%E6%95%B0"><span class="toc-number">3.0.5.</span> <span class="toc-text">3.4 modifyRouteProps函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC"><span class="toc-number">4.</span> <span class="toc-text">4. 路由跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%A0%87%E7%AD%BE%E8%B7%B3%E8%BD%AC"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1 标签跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%87%BD%E6%95%B0%E8%B7%B3%E8%BD%AC"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2 函数跳转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-props-history-push-params"><span class="toc-number">4.0.3.</span> <span class="toc-text">4.3 props.history.push(params):</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Module-Processor"><span class="toc-number">5.</span> <span class="toc-text">5 Module Processor</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/" title="React-umi路由"><img src="https://img2.baidu.com/it/u=923478948,106462584&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React-umi路由"/></a><div class="content"><a class="title" href="/2022/09/20/React-umi%E8%B7%AF%E7%94%B1/" title="React-umi路由">React-umi路由</a><time datetime="2022-09-20T07:36:46.000Z" title="发表于 2022-09-20 15:36:46">2022-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/29/nest-js/" title="nest.js学习笔记"><img src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nest.js学习笔记"/></a><div class="content"><a class="title" href="/2022/08/29/nest-js/" title="nest.js学习笔记">nest.js学习笔记</a><time datetime="2022-08-29T05:58:19.000Z" title="发表于 2022-08-29 13:58:19">2022-08-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/Vue%E6%80%BB%E7%BB%93/" title="Vue总结"><img src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue总结"/></a><div class="content"><a class="title" href="/2022/08/23/Vue%E6%80%BB%E7%BB%93/" title="Vue总结">Vue总结</a><time datetime="2022-08-23T08:11:26.000Z" title="发表于 2022-08-23 16:11:26">2022-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/" title="一些小总结"><img src="https://img0.baidu.com/it/u=868637169,316735885&amp;fm=253&amp;fmt=auto&amp;app=120&amp;f=JPEG?w=1200&amp;h=675" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一些小总结"/></a><div class="content"><a class="title" href="/2022/08/23/%E5%B0%8F%E6%80%BB%E7%BB%93/" title="一些小总结">一些小总结</a><time datetime="2022-08-23T08:06:22.000Z" title="发表于 2022-08-23 16:06:22">2022-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/23/nuxt-js/" title="Nuxt.js学习笔记"><img src="https://img0.baidu.com/it/u=381886100,3541087750&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=500&amp;h=281" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nuxt.js学习笔记"/></a><div class="content"><a class="title" href="/2022/08/23/nuxt-js/" title="Nuxt.js学习笔记">Nuxt.js学习笔记</a><time datetime="2022-08-23T08:03:44.000Z" title="发表于 2022-08-23 16:03:44">2022-08-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 晨风</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="7422861869" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
